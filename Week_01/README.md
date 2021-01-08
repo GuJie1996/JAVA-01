@@ -1,5 +1,7 @@
 学习笔记
 
+### JVM基础
+
 JVM是一台基于栈的计算机器，每个线程都有一个线程栈。
 
 每次方法调用，都会在栈里创建一个栈帧，递归调用容易导致资源耗尽。
@@ -109,4 +111,76 @@ Constant pool:
             8       1     1   obj   LHelloByteCode;
 }
 SourceFile: "HelloByteCode.java"
+```
+### 类的生命周期
+
+1. 加载（Loading） 找Class文件
+1. 连接
+	1. 验证（Verification） 验证格式、依赖
+	1. 准备（Preparation） 静态变量分配内存赋默认值、方法表
+	1. 解析（Resolution） 常量池中的符号解析为引用
+1. 初始化（Initialization）先父后子
+	1. 静态代码块、变量（只一次）
+	1. 动态代码块、变量
+	1. 构造函数
+1. 使用（Using）
+1. 卸载（Unloading）
+
+看一道题目：
+
+```
+public class Alibaba {
+
+    public static int k = 0;
+    public static Alibaba t1 = new Alibaba("t1");
+    public static Alibaba t2 = new Alibaba("t2");
+    public static int i = print("i");
+    public static int n = 99;
+    private int a = 0;
+    public int j = print("j");
+    {
+        print("构造块");
+    }
+    static {
+        print("静态块");
+    }
+
+    public Alibaba(String str) {
+        System.out.println((++k) + ":" + str + "   i=" + i + "    n=" + n);
+        ++i;
+        ++n;
+    }
+
+    public static int print(String str) {
+        System.out.println((++k) + ":" + str + "   i=" + i + "    n=" + n);
+        ++n;
+        return ++i;
+    }
+
+    public static void main(String args[]) {
+        Alibaba t = new Alibaba("init");
+    }
+}
+```
+
+准备阶段静态变量i和n已经赋了初值0，
+
+静态变量赋值和静态代码块已经开始执行，只会执行一次，
+
+所以t1和t2创建对象的时候只会执行动态代码和构造函数，
+
+按照静态（只一次）、动态、构造的顺序依次执行，可以推算出结果如下：
+
+```
+:j   i=0    n=0
+:构造块   i=1    n=1
+:t1   i=2    n=2
+:j   i=3    n=3
+:构造块   i=4    n=4
+:t2   i=5    n=5
+:i   i=6    n=6
+:静态块   i=7    n=99
+:j   i=8    n=100
+:构造块   i=9    n=101
+:init   i=10    n=102
 ```
