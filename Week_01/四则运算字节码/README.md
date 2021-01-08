@@ -117,14 +117,14 @@ Constant pool:
     flags: ACC_PUBLIC
     Code:
       stack=3, locals=1, args_size=1
-         0: aload_0
-         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
-         4: aload_0
-         5: iconst_0
-         6: putfield      #2                  // Field count:I
-         9: aload_0
-        10: dconst_1
-        11: putfield      #3                  // Field result:D
+         0: aload_0    // 局部变量this引用入栈
+         1: invokespecial #1  // this引用出栈，调用构造函数
+         4: aload_0    // this引用入栈
+         5: iconst_0    // 常量int 0入栈
+         6: putfield      #2    // this引用和0出栈，字段count被更新成0
+         9: aload_0    // this引用入栈
+        10: dconst_1    // 常量double 1入栈
+        11: putfield      #3    // this引用和1出栈，字段result被更新成1
         14: return
       LineNumberTable:
         line 1: 0
@@ -139,20 +139,20 @@ Constant pool:
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
       stack=3, locals=2, args_size=1
-         0: new           #4                  // class Hello
-         3: dup
-         4: invokespecial #5                  // Method "<init>":()V
-         7: astore_1
-         8: aload_1
-         9: invokevirtual #6                  // Method autoIncrease:()Z
-        12: ifeq          22
-        15: aload_1
-        16: invokevirtual #7                  // Method calc:()V
-        19: goto          8
-        22: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        25: aload_1
-        26: invokevirtual #9                  // Method getResult:()D
-        29: invokevirtual #10                 // Method java/io/PrintStream.println:(D)V
+         0: new           #4    // 创建Hello的对象实例，将引用入栈
+         3: dup    // 复制栈顶对象引用，并压栈
+         4: invokespecial #5    // 对象引用出栈，调用构造方法
+         7: astore_1    // 对象引用出栈，保存到局部变量hello
+         8: aload_1    // 局部变量hello入栈
+         9: invokevirtual #6    // hello出栈，调用autoIncrease方法
+        12: ifeq          22    // 若栈顶int类型值为0（方法调用返回的boolean为false）则跳转22
+        15: aload_1    // hello入栈
+        16: invokevirtual #7    // hello出栈，调用calc方法
+        19: goto          8    // 循环，回到8继续执行
+        22: getstatic     #8    // 获取静态字段System.out，入栈
+        25: aload_1    // hello入栈
+        26: invokevirtual #9    // hello出栈，调用getResult方法
+        29: invokevirtual #10    // System.out出栈，调用println方法
         32: return
       LineNumberTable:
         line 7: 0
@@ -175,9 +175,9 @@ Constant pool:
     flags: ACC_PUBLIC
     Code:
       stack=2, locals=1, args_size=1
-         0: aload_0
-         1: getfield      #3                  // Field result:D
-         4: dreturn
+         0: aload_0    // 局部变量this引用入栈
+         1: getfield      #3    // this出栈，获取this.result入栈
+         4: dreturn    // 返回double
       LineNumberTable:
         line 15: 0
       LocalVariableTable:
@@ -189,44 +189,44 @@ Constant pool:
     flags: ACC_PUBLIC
     Code:
       stack=5, locals=1, args_size=1
-         0: aload_0
-         1: getfield      #2                  // Field count:I
-         4: iconst_4
-         5: irem
-         6: tableswitch   { // 0 to 3
+         0: aload_0    // 局部变量this引用入栈
+         1: getfield      #2    // this出栈，获取this.count入栈
+         4: iconst_4    // 常量int 4入栈
+         5: irem    // 将栈顶两int类型数取模，结果入栈（接下来就不谈出栈了，觉得使用的时候都要出栈）
+         6: tableswitch   { // 通过索引访问跳转表，并跳转
                        0: 36
                        1: 49
                        2: 64
                        3: 80
                  default: 92
             }
-        36: aload_0
-        37: dup
-        38: getfield      #3                  // Field result:D
-        41: dconst_1
-        42: dadd
-        43: putfield      #3                  // Field result:D
-        46: goto          92
+        36: aload_0    // this入栈
+        37: dup    // 复制栈顶this入栈（给后面的putfield用）
+        38: getfield      #3    // this.result入栈
+        41: dconst_1    // 常量double 1入栈
+        42: dadd    // 将栈顶两double类型数相加，结果入栈
+        43: putfield      #3    // 将求和结果赋给this.result
+        46: goto          92    // break跳出switch
         49: aload_0
         50: dup
-        51: getfield      #3                  // Field result:D
-        54: ldc2_w        #11                 // double 0.5d
-        57: dsub
+        51: getfield      #3    // this.result入栈
+        54: ldc2_w        #11    // 常量池中常量0.5d入栈
+        57: dsub    // this.result - 0.5d，结果入栈
         58: putfield      #3                  // Field result:D
         61: goto          92
         64: aload_0
         65: dup
-        66: getfield      #3                  // Field result:D
+        66: getfield      #3    // this.result入栈
         69: aload_0
-        70: getfield      #3                  // Field result:D
-        73: dmul
+        70: getfield      #3    // this.result入栈
+        73: dmul    // this.result * this.result，结果入栈
         74: putfield      #3                  // Field result:D
         77: goto          92
         80: aload_0
         81: dup
-        82: getfield      #3                  // Field result:D
-        85: ldc2_w        #13                 // double 1.25d
-        88: ddiv
+        82: getfield      #3    // this.result入栈
+        85: ldc2_w        #13    // 常量1.25d入栈
+        88: ddiv    // this.result / 1.25d，结果入栈
         89: putfield      #3                  // Field result:D
         92: return
       LineNumberTable:
@@ -254,18 +254,18 @@ Constant pool:
     flags: ACC_PUBLIC
     Code:
       stack=4, locals=1, args_size=1
-         0: aload_0
-         1: dup
-         2: getfield      #2                  // Field count:I
-         5: dup_x1
-         6: iconst_1
-         7: iadd
-         8: putfield      #2                  // Field count:I
-        11: bipush        8
-        13: if_icmpge     20
-        16: iconst_1
+         0: aload_0    // this入栈
+         1: dup    // this入栈
+         2: getfield      #2    // this.count入栈
+         5: dup_x1    // 复制栈顶一个字长的数据，弹出栈顶两个字长数据，先将复制后的数据压栈，再将弹出的两个字长数据压栈（this.count，this，this.count）
+         6: iconst_1    // 常量int 1入栈
+         7: iadd    // this.count + 1，结果入栈
+         8: putfield      #2    结果赋给this.count
+        11: bipush        8    常量int 8入栈
+        13: if_icmpge     20    // 如果this.count >= 8，跳转20
+        16: iconst_1    // true 1 入栈
         17: goto          21
-        20: iconst_0
+        20: iconst_0    // false 0 入栈
         21: ireturn
       LineNumberTable:
         line 35: 0
