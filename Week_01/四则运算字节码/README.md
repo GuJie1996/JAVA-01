@@ -257,7 +257,8 @@ Constant pool:
          0: aload_0    // this入栈
          1: dup    // this入栈
          2: getfield      #2    // this.count入栈
-         5: dup_x1    // 复制栈顶一个字长的数据，弹出栈顶两个字长数据，先将复制后的数据压栈，再将弹出的两个字长数据压栈（this.count，this，this.count）
+         5: dup_x1    // 复制栈顶一个字长的数据，弹出栈顶两个字长数据，先将复制后的数据压栈，
+                      // 再将弹出的两个字长数据压栈（this.count，this，this.count）
          6: iconst_1    // 常量int 1入栈
          7: iadd    // this.count + 1，结果入栈
          8: putfield      #2    结果赋给this.count
