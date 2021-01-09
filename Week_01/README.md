@@ -200,3 +200,28 @@ public class Alibaba {
 :构造块   i=9    n=101
 :init   i=10    n=102
 ```
+
+### 类加载器
+
+种类：
+
+1. 启动类加载器（BootstrapClassLoader） 不由Java实现，加载的是jre/lib下的核心库，可以通过sun.misc.Launcher.getBootstrapClassPath().getURLs()获取
+1. 扩展类加载器（ExtClassLoader）jre/lib/ext下的扩展包 ((URLClassLoader)ClassLoader.getSystemClassLoader().getParent()).getURLs();
+1. 应用类加载器（AppClassLoader）((URLClassLoader)ClassLoader.getSystemClassLoader()).getURLs();
+
+类加载器可以通过getParent获取父加载器，这并不是继承关系，如果直接继承ClassLoader自己实现一个类加载器，且不指定父加载器，他的父加载器就是AppClassLoader
+
+任何parent为null的加载器，其父加载器为BootstrapClassLoader
+
+添加类的几种方式：
+
+1. 放到JDK的lib/ext下，或者-Djava.ext.dirs
+1. `java -cp` 或者 class文件放到当前路径，可以用于引入依赖，windows用;linux用:分割，`javac -cp  .:httpcore-4.4.1.jar:httpclient-4.4.1.jar:commons-logging-1.2.jar  TestIPMain.java`，解压jar包，`META-INF` 文件夹下都有 `MANIFEST.MF` 指定了 `Main-Class`，`java -jar Test.jar` 可以被 `java -cp Test.jar Main.java` 替代。
+1. 使用ClassLoader或者自定义ClassLoader,JDK9之前ExtClassLoader和AppClassLoader都继承了URLClassLoader，可以通过反射调用addURL添加类,JDK9之后平级了，可以通过 `Class.forName("Test", new URLClassLoader("path:/xxx.jar"))` 添加类
+
+特点：
+
+1. 双亲委托，当某个特定的类加载器在接收到加载类的请求时，首先将该加载任务发送给父加载器，若父加载器仍有父亲，则继续向上追溯，直到最高级。如果最高级父加载器能够加载到该类，则成功返回，否则由其子加载器进行加载。以此类推，如果到最后一个子加载器还不能成功加载，则抛出一个异常。作用：可以保证java核心库或第三方库的安全（防止低一级加载器加载的类覆盖高级加载器加载的类）
+1. 负责依赖，类加载器会去寻找当前类所依赖的其他类
+1. 缓存加载，只会加载一次，后续从缓存中获取
+
