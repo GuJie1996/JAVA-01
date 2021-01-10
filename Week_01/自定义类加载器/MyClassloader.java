@@ -59,7 +59,8 @@ public class MyClassloader extends ClassLoader {
      */
     private byte[] decode(byte[] bytes) {
         for (int i = 0; i < bytes.length; i++) {
-            bytes[i] = (byte) (255 - bytes[i]);
+//            bytes[i] = (byte) (255 - bytes[i]);
+            bytes[i] = (byte) ~bytes[i];
         }
         return bytes;
     }
