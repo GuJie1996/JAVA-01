@@ -225,3 +225,48 @@ public class Alibaba {
 1. 负责依赖，类加载器会去寻找当前类所依赖的其他类
 1. 缓存加载，只会加载一次，后续从缓存中获取
 
+### 三个模型
+
+JVM内存结构
+
+![JVM内存结构-栈](JVM内存结构-栈.png)
+
+![JVM内存结构-堆](JVM内存结构-堆.png)
+
+Java对象模型
+
+![Java对象模型](Java对象模型.png)
+
+Java内存模型（JMM）
+
+![Java内存模型](Java内存模型.jpg)
+
+### JVM参数
+
+不带前缀的是Java规范的jvm参数，JavaAgent参数可以通过无侵入方式做很多事情，比如注入AOP代码
+
+- `-server` 启动慢，运行时性能高
+- `-client` 启动速度快，运行性能低，适合调试
+
+#### `-D` 设置系统属性
+
+有中文编译不了，设置-Dfile.encoding=UTF-8，获取方式：
+System.getProperty("file.encoding");
+
+#### `-X` 非标准参数
+
+- `-Xlint` 解释运行
+- `-Xcomp` 编译运行
+- `-Xmixed` 混合模式，也是默认模式
+- `Xms` 堆内存初始大小
+- `Xmx` 最大堆内存
+- `Xmn` 新生代大小，等价 `-XX:NewSize`
+- `Xss` 每个线程栈的字节数，等价 `与-XX:ThreadStackSize`
+- `Xdebug` 远程调试
+
+#### `-XX` 非稳定参数
+
+- +-表示boolean 
+- `-XX:+HeapDumpOnOutOfMemoryError`、`-XX:HeapDumpPath=/usr/local` 当OutOfMemoryError产生，自动dump堆内存
+- `-XX:OnError` 发生致命错误时，执行的脚本
+
