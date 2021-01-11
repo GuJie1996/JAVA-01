@@ -270,3 +270,14 @@ System.getProperty("file.encoding");
 - `-XX:+HeapDumpOnOutOfMemoryError`、`-XX:HeapDumpPath=/usr/local` 当OutOfMemoryError产生，自动dump堆内存
 - `-XX:OnError` 发生致命错误时，执行的脚本
 
+### 常见GC
+
+![GC脑图](GC脑图.png)
+
+![GC对比](GC对比.jpg)
+
+#### 常用GC组合
+
+- Serial+Serial Old 实现单线程的低延迟垃圾回收机制
+- ParNew+CMS 实现多线程的低延迟垃圾回收机制
+- Parallel Scavenge和Parallel Old，实现多线程的高吞吐量垃圾回收机制
