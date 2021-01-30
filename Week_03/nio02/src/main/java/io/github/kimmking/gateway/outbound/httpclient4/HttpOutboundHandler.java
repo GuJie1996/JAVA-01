@@ -4,6 +4,7 @@ package io.github.kimmking.gateway.outbound.httpclient4;
 import io.github.kimmking.gateway.filter.HeaderHttpResponseFilter;
 import io.github.kimmking.gateway.filter.HttpRequestFilter;
 import io.github.kimmking.gateway.filter.HttpResponseFilter;
+import io.github.kimmking.gateway.homework.HeaderHttpResponseFileFilter;
 import io.github.kimmking.gateway.router.HttpEndpointRouter;
 import io.github.kimmking.gateway.router.RandomHttpEndpointRouter;
 import io.netty.buffer.Unpooled;
@@ -38,7 +39,7 @@ public class HttpOutboundHandler {
     private ExecutorService proxyService;
     private List<String> backendUrls;
 
-    HttpResponseFilter filter = new HeaderHttpResponseFilter();
+    HttpResponseFilter filter = new HeaderHttpResponseFileFilter();
     HttpEndpointRouter router = new RandomHttpEndpointRouter();
 
     public HttpOutboundHandler(List<String> backends) {
