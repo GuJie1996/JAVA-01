@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="student123"
+          class="io.kimmking.spring01.Student">
+        <property name="id" value="123" />
+        <property name="name" value="KK123" />
+    </bean>
+
+    <bean id="student100"
+          class="io.kimmking.spring01.Student">
+        <property name="id" value="100" />
+        <property name="name" value="KK100" />
+    </bean>
+    
+    <bean id="class1" class="io.kimmking.spring02.Klass">
+        <property name="students">
+            <list>
+                <ref bean="student100" />
+                <ref bean="student123" />
+<!--                <bean class="io.kimmking.spring01.Student">-->
+<!--                    <property name="name" value="qq" />-->
+<!--                    <property name="id" value="001" /> -->
+<!--                </bean>-->
+            </list>
+        </property>
+    </bean>
+    
+    <context:component-scan base-package="io.kimmking.spring02" />
+    
+</beans>
