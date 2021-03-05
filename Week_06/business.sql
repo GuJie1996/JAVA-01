@@ -5,7 +5,7 @@ CREATE TABLE `business`.`user`  (
   `phone` varchar(20) NULL COMMENT '手机号',
   `password` char(32) NOT NULL COMMENT 'md5密码',
   `gmt_create` datetime NOT NULL,
-  `gtm_modified` datetime NOT NULL,
+  `gmt_modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name`(`name`)
 );
@@ -18,7 +18,7 @@ CREATE TABLE `business`.`goods`  (
 	`count` int UNSIGNED NOT NULL COMMENT '库存数量',
 	`goods_extra_id` bigint UNSIGNED NOT NULL COMMENT '关联商品详情',
   `gmt_create` datetime NOT NULL,
-  `gtm_modified` datetime NOT NULL,
+  `gmt_modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `name_price`(`name`, `price`)
 );
@@ -28,7 +28,7 @@ CREATE TABLE `business`.`goods_extra`  (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `description` text NOT NULL COMMENT '描述',
   `gmt_create` datetime NOT NULL,
-  `gtm_modified` datetime NOT NULL,
+  `gmt_modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE `business`.`goods_snapshot`  (
 	`goods_id` bigint UNSIGNED NOT NULL COMMENT '关联商品',
 	`goods_extra_id` bigint UNSIGNED NOT NULL COMMENT '关联商品详情',
   `gmt_create` datetime NOT NULL,
-  `gtm_modified` datetime NOT NULL,
+  `gmt_modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -53,6 +53,6 @@ CREATE TABLE `business`.`order`  (
 	`user_id` bigint UNSIGNED NOT NULL COMMENT '关联用户',
   `goods_snapshot_id` bigint UNSIGNED NOT NULL COMMENT '关联商品快照',
   `gmt_create` datetime NOT NULL,
-  `gtm_modified` datetime NOT NULL,
+  `gmt_modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
 );
