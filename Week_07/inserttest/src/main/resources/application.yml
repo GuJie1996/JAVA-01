@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3308/business?rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+    username: root
+    password:
+    hikari:
+      maximum-pool-size: 16
+      minimum-idle: 16
