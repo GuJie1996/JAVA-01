@@ -1,0 +1,33 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds1,ds3
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/business?rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+        username: root
+        password:
+      ds3:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbc-url: jdbc:mysql://127.0.0.1:3308/business?rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+        username: root
+        password:
+    sharding:
+      tables:
+        order:
+          actual-data-nodes: ds1.order_copy$->{1..16}, ds3.order_copy$->{1..16}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          database-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: ds$->{id%2==0?1:3}
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: order_copy$->{id%16+1}
+    props:
+      sql.show: true
+
+
